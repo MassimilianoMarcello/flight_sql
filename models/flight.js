@@ -1,14 +1,15 @@
 import query from '../config/db.js';
 
-// create a new user table
-
-const createUserTable = async () => {
+// create a new flights table
+const createFlightsTable = async () => {
     try {
-        const sql = `
-            CREATE TABLE IF NOT EXISTS users (
+        const sql = ` 
+            CREATE TABLE IF NOT EXISTS flights (
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                email VARCHAR(255) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
+                departure VARCHAR(255) NOT NULL,
+                time INT NOT NULL,
+                arrive VARCHAR(255) NOT NULL,
+                price DECIMAL(10, 2) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `;
@@ -19,4 +20,4 @@ const createUserTable = async () => {
         console.error(error);  // Log any errors that occur
     }
 };
-export default createUserTable
+export default createFlightsTable;
