@@ -25,22 +25,31 @@ const userControllers = {
     },
     add: async (req, res) => {
         try {
-            // La query SQL corretta
+           
+            // Take parameters from the body of the request
+            const { email, password } = req.body;
+    
+           
+            // Verify that the field are full: there is a password and a mail
+            if (!email || !password) {
+                return res.status(400).send('Email and password are required');
+            }
+    
+            // The query SQL for insert email e password
             const sqlQuery = `INSERT INTO users (email, password) VALUES (?, ?)`;
-
-            // I parametri da inserire nella query
-            const params = ['carletto@gmail.com', '2qa1w4e3r6t'];
-
-            // Eseguire la query passando i parametri
-            const result = await query(sqlQuery, params);
-
-            // Rispondere con il risultato della query
+    
+      
+              // Esecute the query with the dinamic params
+            const result = await query(sqlQuery, [email, password]);
+    
+            // Respond wuth the query result
             res.status(201).send('User added successfully');
         } catch (error) {
-            console.error(error); // Stampa l'errore in console
-            res.status(500).send('Internal Server Error'); // Invia una risposta di errore
+            console.error(error); 
+            res.status(500).send('Internal Server Error'); 
         }
     },
+    
     update: async (req, res) => {
         try {
             const { id } = req.params;
@@ -50,8 +59,8 @@ const userControllers = {
             console.log(result);
             res.status(200).send('User updated successfully');
         } catch (error) {
-            console.error(error); // Stampa l'errore in console
-            res.status(500).send('Internal Server Error'); // Invia una risposta di errore
+            console.error(error); 
+            res.status(500).send('Internal Server Error'); 
         }
     },
     remove: async (req, res) => {
@@ -63,8 +72,8 @@ const userControllers = {
             res.status(200).send('User deleted successfully');
             console.log(result);
         } catch (error) {
-            console.error(error); // Stampa l'errore in console
-            res.status(500).send('Internal Server Error'); // Invia una risposta di errore
+            console.error(error); 
+            res.status(500).send('Internal Server Error'); 
         }
     }
 };
