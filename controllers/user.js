@@ -52,17 +52,27 @@ const userControllers = {
     
     update: async (req, res) => {
         try {
-            const { id } = req.params;
-            const sqlQuery = `Update users set email=? ,password=? where id=?`;
-            const params = ['stupidmail@gmail.com', '1qa2ws3ed4rf5tg', id];
+            const { id } = req.params;  
+            const { email, password } = req.body;  
+    
+          
+            if (!email || !password) {
+                return res.status(400).send('Email and password are required');
+            }
+    
+            const sqlQuery = `UPDATE users SET email=?, password=? WHERE id=?`;
+            const params = [email, password, id];
+            
             const result = await query(sqlQuery, params);
             console.log(result);
+            
             res.status(200).send('User updated successfully');
         } catch (error) {
-            console.error(error); 
-            res.status(500).send('Internal Server Error'); 
+            console.error(error);
+            res.status(500).send('Internal Server Error');
         }
     },
+    
     remove: async (req, res) => {
         try {
             const { id } = req.params;
